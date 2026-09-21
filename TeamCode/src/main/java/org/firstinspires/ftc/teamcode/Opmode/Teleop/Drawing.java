@@ -132,4 +132,10 @@ class Drawing {
         c.strokePolyline(points[0], points[1]);
     }
 
+    public static void field_image(){
+        packet = new TelemetryPacket(false);
+        packet.fieldOverlay()
+                .drawImage("/images/biobuzz-field.webp", 0, 0, 144, 144);
+    }
+
 }

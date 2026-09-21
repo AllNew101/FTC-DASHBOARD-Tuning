@@ -2,17 +2,18 @@ package org.firstinspires.ftc.teamcode.Opmode.Blueprint;
 
 import com.acmerobotics.dashboard.config.Config;
 
-import com.qualcomm.robotcore.hardware.DcMotorEx;
-import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.util.ElapsedTime;
+
+import org.firstinspires.ftc.teamcode.Opmode.Config_Tuning;
 
 @Config
 public class PID_Lift {
-    public static double kp = 0 ;
-    public static double ki = 0 ;
-    public static double kd = 0 ;
-    public static double kg = 0 ;//gravity force
-    public static double kf = 0;
+
+    double kp = Config_Tuning.Lift.kp;
+    double ki = Config_Tuning.Lift.ki;
+    double kd = Config_Tuning.Lift.kd;
+    double kf = Config_Tuning.Lift.kf;
+    double kg = Config_Tuning.Lift.kg;
 
     private double previous_error, error, delta_error, integral, previous_time, delta_time, power_motor;
     private ElapsedTime time;

@@ -56,14 +56,14 @@ public class Test_sensor {
     }
 
     public void telemetry_checkball(){
-        telemetryX.addData("Is_Ball_Yellow",is_yellow,2);
+        telemetryX.addData("Is_Ball_Yellow",is_yellow, TelemetryX.Target.BOTH);
     }
 
     public void telemetry_HSV_value (){
-        telemetryX.addData("Hue",hue,2);
-        telemetryX.addData("Saturation",saturation,2);
-        telemetryX.addData("Value",values,2);
-        telemetryX.addData("Alpha",alpha,2);
+        telemetryX.addData("Hue",hue, TelemetryX.Target.BOTH);
+        telemetryX.addData("Saturation",saturation, TelemetryX.Target.BOTH);
+        telemetryX.addData("Value",values, TelemetryX.Target.BOTH);
+        telemetryX.addData("Alpha",alpha, TelemetryX.Target.BOTH);
     }
 
 }

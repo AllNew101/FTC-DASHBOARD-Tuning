@@ -15,15 +15,20 @@ public class  TelemetryX {
     public void init(Telemetry t){
         telemetry = t;
     }
-    public void addData(String head, Object child, int key){
+
+    public enum Target {
+        Drive,DashBoard,BOTH
+    }
+
+    public void addData(String head, Object child, Target key){
         switch (key) {
-            case 0:
+            case DashBoard:
                 dashboardTelemetry.addData(head, child);
                 break;
-            case 1:
+            case Drive:
                 telemetry.addData(head, child);
                 break;
-            case 2:
+            case BOTH:
                 dashboardTelemetry.addData(head, child);
                 telemetry.addData(head, child);
                 break;

@@ -2,10 +2,10 @@ package org.firstinspires.ftc.teamcode.Opmode.Blueprint;
 
 import com.acmerobotics.dashboard.config.Config;
 import com.pedropathing.follower.Follower;
-import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
+import org.firstinspires.ftc.teamcode.Opmode.Config_Tuning;
 
 @Config
 public class Distance {
@@ -14,8 +14,8 @@ public class Distance {
 
     public double[] Red_Goal = {128.80923076923077 , -140.4923076923077 , 33.0}; // x,y,theta
     public double[] Blue_Goal = {123, -18 , 50.0}; // x,y,theta
-    public static double Max_angle = 120;
-    public static double Min_angle = -120;
+    double Max_angle = Config_Tuning.Turret.MaxAngle;
+    double Min_angle = Config_Tuning.Turret.MinAngle;
 
     public double distance,deltaX,deltaY,Target_Theta,Theta,robot;
     public void init (ElapsedTime elapsedTime){

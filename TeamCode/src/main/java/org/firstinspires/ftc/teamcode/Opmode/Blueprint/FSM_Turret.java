@@ -6,10 +6,13 @@ import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.util.ElapsedTime;
+
+import org.firstinspires.ftc.teamcode.Opmode.Config_Tuning;
+
 @Config
 public class FSM_Turret {
 
-    public static double Idle_target = 0;
+    double Idle_target = Config_Tuning.FSM_Turret.Idle_target;
 
     public enum Current_State{
         Idle_state,

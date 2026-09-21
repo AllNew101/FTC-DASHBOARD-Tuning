@@ -1,0 +1,29 @@
+     • Forward Pod Offset (Y): `-5.929951705331878` (Maps to `forwardPodY`)
+
+
+
+    • Strafe Pod Offset (X): `2.198078125480592` (Maps to `strafePodX`)
+
+
+
+    • Forward Pod Direction: `REVERSED` (Maps to `forwardEncoderDirection`)
+
+
+
+    • Strafe Pod Direction: `FORWARD` (Maps to `strafeEncoderDirection`)
+
+
+
+    • Max Forward Speed: `47.2218997369381` (Maps to `driveConstants.xVelocity`)
+
+
+
+    • Max Strafe Speed: `39.5097540497669` (Maps to `driveConstants.yVelocity`)
+
+
+
+    • Forward Deceleration: `-37.04412874221226` (Maps to `followerConstants.forwardZeroPowerAcceleration` - Must be negative)
+
+
+
+    • Strafe Deceleration: `-74.50382751773564` (Maps to `followerConstants.lateralZeroPowerAcceleration` - Must be negative)

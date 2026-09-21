@@ -7,12 +7,14 @@ import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
+import org.firstinspires.ftc.teamcode.Opmode.Config_Tuning;
+
 @Config
 public class PID_posi {
-    public static double kp = 0 ;
-    public static double ki = 0 ;
-    public static double kd = 0 ;
-    public static double kf = 0;
+    double kp = Config_Tuning.Posi.kp;
+    double ki = Config_Tuning.Posi.ki ;
+    double kd = Config_Tuning.Posi.kd ;
+    double kf = Config_Tuning.Posi.kf ;
 
     private double previous_error, error, delta_error, integral, previous_time, delta_time, power_motor;
     private DcMotorEx motor1;

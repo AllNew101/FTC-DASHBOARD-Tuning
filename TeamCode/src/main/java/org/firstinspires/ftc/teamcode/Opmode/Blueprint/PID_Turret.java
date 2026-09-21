@@ -4,19 +4,22 @@ import com.acmerobotics.dashboard.config.Config;
 
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.util.ElapsedTime;
+
+import org.firstinspires.ftc.teamcode.Opmode.Config_Tuning;
+
 @Config
 public class PID_Turret {
 
-    public static double Max_angle = 120;
-    public static double Min_angle = -120;
-    public static double kd = 0;
-    public static double kd_sec = 0;
-    public static double kf = 0.17;
-    public static double kf_sec = 0.1;
-    public static double ki = 0;
-    public static double ki_sec = 0;
-    public static double kp = 0.02;
-    public static double kp_sec = 0.000001;
+    double Max_angle = Config_Tuning.Turret.MaxAngle;
+    double Min_angle = Config_Tuning.Turret.MinAngle;
+    double kd = Config_Tuning.Turret.kd;
+    double kd_sec = Config_Tuning.Turret.kdSec;
+    double kf = Config_Tuning.Turret.kf;
+    double kf_sec = Config_Tuning.Turret.kfSec;
+    double ki = Config_Tuning.Turret.ki;
+    double ki_sec = Config_Tuning.Turret.kiSec;
+    double kp = Config_Tuning.Turret.kp;
+    double kp_sec = Config_Tuning.Turret.kpSec;
 
     private double previous_error, error, delta_error, integral, previous_time, delta_time, power_motor;
     private boolean Check_limit;
