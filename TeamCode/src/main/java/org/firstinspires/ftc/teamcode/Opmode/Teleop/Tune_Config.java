@@ -2,32 +2,22 @@ package org.firstinspires.ftc.teamcode.Opmode.Teleop;
 
 
 import com.acmerobotics.dashboard.config.Config;
-import com.acmerobotics.dashboard.telemetry.TelemetryPacket;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
-import com.qualcomm.robotcore.hardware.DcMotorEx;
-import com.qualcomm.robotcore.hardware.DcMotorSimple;
-import com.qualcomm.robotcore.hardware.HardwareMap;
-import com.qualcomm.robotcore.util.ElapsedTime;
 
-import org.firstinspires.ftc.teamcode.Opmode.Blueprint.Distance;
-import org.firstinspires.ftc.teamcode.Opmode.Blueprint.FSM_Lift;
-import org.firstinspires.ftc.teamcode.Opmode.Blueprint.FSM_Turret;
 //import org.firstinspires.ftc.teamcode.Opmode.Blueprint.Test_sensor;
 import org.firstinspires.ftc.teamcode.Opmode.System.TelemetryX;
-import org.firstinspires.ftc.teamcode.pedroPathing.Constants;
-import java.util.function.Supplier;
 
 @Config
 @TeleOp
-public class Drive extends OpMode {
+public class Tune_Config extends OpMode {
 
     TelemetryX telemetryX;
 //    Test_sensor check_ball;
     Drawing drawing;
 
     public static int debug_key = 0;
-    public static boolean test = false;
+    public static boolean test = true;
 
 //    double x_joy,y_joy,rx_joy;
 
@@ -65,7 +55,8 @@ public class Drive extends OpMode {
 //        FR.setPower( y_joy - x_joy - rx_joy );
 //        BL.setPower( y_joy - x_joy + rx_joy );
 //        BR.setPower( y_joy + x_joy - rx_joy );
-
+        telemetryX.addData("test",test, TelemetryX.Target.BOTH);
+        debugging();
         telemetryX.update();
     }
     ////////////////////////////////////////////////////////////////////////////////////////////

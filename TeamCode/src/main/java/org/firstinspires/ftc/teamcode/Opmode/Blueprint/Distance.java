@@ -7,7 +7,6 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.teamcode.Opmode.Config_Tuning;
 
-@Config
 public class Distance {
     ElapsedTime time;
     Follower follower;

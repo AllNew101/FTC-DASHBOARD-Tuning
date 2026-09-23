@@ -9,7 +9,6 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.teamcode.Opmode.Config_Tuning;
 
-@Config
 public class PID_posi {
     double kp = Config_Tuning.Posi.kp;
     double ki = Config_Tuning.Posi.ki ;

@@ -8,7 +8,6 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.teamcode.Opmode.Config_Tuning;
 
-@Config
 public class PID_velo {
     double kp = Config_Tuning.Velo.kp;
     double ki = Config_Tuning.Velo.ki ;

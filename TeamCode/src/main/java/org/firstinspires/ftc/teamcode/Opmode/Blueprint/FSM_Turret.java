@@ -9,7 +9,6 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.teamcode.Opmode.Config_Tuning;
 
-@Config
 public class FSM_Turret {
 
     double Idle_target = Config_Tuning.FSM_Turret.Idle_target;
