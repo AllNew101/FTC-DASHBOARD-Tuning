@@ -1,47 +1,55 @@
 package org.firstinspires.ftc.teamcode.Opmode.System;
 
+
 import org.firstinspires.ftc.robotcore.external.Telemetry;
+
+import com.acmerobotics.dashboard.FtcDashboard;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
-import com.acmerobotics.dashboard.FtcDashboard;
-
 
 public class  TelemetryX {
     FtcDashboard dashboard = FtcDashboard.getInstance();
     Telemetry dashboardTelemetry = dashboard.getTelemetry();
-    Telemetry telemetry;
-
-    public void init(Telemetry t){
-        telemetry = t;
-    }
+    Telemetry Driver_tele;
 
     public enum Target {
-        Drive,DashBoard,BOTH
+        DRIVER,
+        DASHBOARD,
+        BOTH
+    }
+
+    public void init(Telemetry t){
+        Driver_tele = t;
     }
 
     public void addData(String head, Object child, Target key){
         switch (key) {
-            case DashBoard:
-                dashboardTelemetry.addData(head, child);
+
+            case DRIVER:
+                Driver_tele.addData(head, child);
                 break;
-            case Drive:
-                telemetry.addData(head, child);
+
+            case DASHBOARD:
+                dashboardTelemetry.addData(head,child);
                 break;
+
             case BOTH:
-                dashboardTelemetry.addData(head, child);
-                telemetry.addData(head, child);
+                Driver_tele.addData(head, child);
+                dashboardTelemetry.addData(head,child);
                 break;
+
         }
     }
 
+    // public void
+
     public void update(){
+        Driver_tele.update();
         dashboardTelemetry.update();
-        telemetry.update();
     }
     public void clear(){
-        dashboardTelemetry.clear();
-        telemetry.clear();
+        Driver_tele.clear();
     }
 }
 

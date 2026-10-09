@@ -1,6 +1,5 @@
-package org.firstinspires.ftc.teamcode.Opmode.Blueprint;
+package org.firstinspires.ftc.teamcode.Opmode.Calculate;
 
-import com.acmerobotics.dashboard.config.Config;
 import com.pedropathing.follower.Follower;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
