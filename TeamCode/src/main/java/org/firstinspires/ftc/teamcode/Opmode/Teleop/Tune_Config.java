@@ -23,7 +23,6 @@ import org.firstinspires.ftc.teamcode.Opmode.System.TelemetryX;
 @Config
 @TeleOp
 public class Tune_Config extends OpMode {
-    //    Follower follower;
     Drawing drawing;
     TelemetryX telemetryX;
     TelemetryPacket packet;
@@ -39,9 +38,9 @@ public class Tune_Config extends OpMode {
     ElapsedTime time;
 
     public static int debug_key = 0;
-    public static double power_intake_in = 0.6;
 
-    double power_intake_out = -1;
+    double power_intake_in = Config_Tuning.Intake.Intake_In;
+    double power_intake_out = Config_Tuning.Intake.Intake_Out;
     double RR;
     double RL;
     double FR;
@@ -51,7 +50,7 @@ public class Tune_Config extends OpMode {
     boolean check_circle = true;
     boolean check_intake_out = false;
     boolean check_triggerR = true;
-    boolean check_closer = false;
+    boolean check_closer = true;
     boolean check_bumperR = true;
     boolean check_shoot = false;
 
@@ -82,9 +81,8 @@ public class Tune_Config extends OpMode {
         time.startTime();
         FSM_shooter.init(hardwareMap,time);
         telemetryX.init(telemetry);
+        telemetryX.clear();
 
-//        follower.setStartingPose(new Pose(82, -82, Math.toRadians(0)));
-//        follower.update();
     }
     ////////////////////////////////////////////////////////////////////////////////////////////////
     @Override
@@ -148,10 +146,7 @@ public class Tune_Config extends OpMode {
 
         debugging();
         FSM_shooter.update_state();
-//        drawing.drawRobot(follower.getPose(), "red");
-//        drawing.sendPacket();
-//        follower.update();
-//        telemetryX.update();
+        telemetryX.update();
     }
     ///////////////////////////////////////////////////////////////////////////////////////////
     public void debugging (){
@@ -170,6 +165,11 @@ public class Tune_Config extends OpMode {
     }
 }
 
+//    Follower follower;
 
+//        follower.setStartingPose(new Pose(82, -82, Math.toRadians(0)));
+//        follower.update();
 
-
+//        drawing.drawRobot(follower.getPose(), "red");
+//        drawing.sendPacket();
+//        follower.update();

@@ -33,10 +33,10 @@ public class Config_Tuning {
     }
     @Config
     public static class Shooter {
-        public static double kp = 0;
+        public static double kd = 0.000015;
+        public static double kf = 0.12;
         public static double ki = 0;
-        public static double kd = 0;
-        public static double kf = 0;
+        public static double kp = 0.018;
     }
     @Config
     public static class FSM_Turret {
@@ -45,8 +45,12 @@ public class Config_Tuning {
     @Config
     public static class FSM_Shooter {
         public static double far = 800;
-        public static double mid = 500;
-        public static double power = 0.47;
+        public static double mid = 1140;
+        public static double power = 0.5;
     }
-
+    @Config
+    public static class Intake {
+        public static double Intake_In = 0.5;
+        public static double Intake_Out = -0.5;
+    }
 }
