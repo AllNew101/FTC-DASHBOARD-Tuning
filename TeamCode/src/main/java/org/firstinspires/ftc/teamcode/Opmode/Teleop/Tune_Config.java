@@ -45,25 +45,25 @@ public class Tune_Config extends OpMode {
 
     public static int debug_key = 0;
 
-    double RR;
-    double RL;
-    double FR;
-    double FL;
     boolean check_cross = true;
     boolean check_intake_in = false;
     boolean check_circle = true;
     boolean check_intake_out = false;
     boolean check_triggerR = true;
     boolean check_closer_pollen = false;
-    boolean check_triggerR2 = true;
-    boolean check_closer_nectar = false;
     boolean check_bumperR = true;
     boolean check_shoot_pollen = false;
-    boolean check_bumperR2 = true;
+    boolean check_triangle2 = true;
     boolean check_shoot_nectar = false;
-    boolean check_dpadL = true;
-    boolean check_dpadR = true;
+    boolean check_dpadL2 = true;
+    boolean check_dpadR2 = true;
     int state_turret_manual = 2;
+    boolean check_square = true;
+    boolean check_turret = false;
+    boolean check_bumperR2 = true;
+    boolean check_bumperL2 = true;
+    boolean check_triggerR2 = true;
+    boolean check_triggerL2 = true;
 
 
     ////////////////////////////////////////////////////////////////////////////////////////////////
@@ -84,7 +84,6 @@ public class Tune_Config extends OpMode {
         motorRL = hardwareMap.get(DcMotorEx.class, "Back_L");
         motorFR = hardwareMap.get(DcMotorEx.class, "Front_R");
         motorFL = hardwareMap.get(DcMotorEx.class, "Front_L");
-
 
         motorRL.setDirection(DcMotorSimple.Direction.REVERSE);
         motorFL.setDirection(DcMotorSimple.Direction.REVERSE);
@@ -110,38 +109,34 @@ public class Tune_Config extends OpMode {
     }
     @Override
     public void loop() {
-        FL = -gamepad1.left_stick_y + gamepad1.left_stick_x + gamepad1.right_stick_x;
-        FR = -gamepad1.left_stick_y - gamepad1.left_stick_x - gamepad1.right_stick_x;
-        RL = -gamepad1.left_stick_y - gamepad1.left_stick_x + gamepad1.right_stick_x;
-        RR = -gamepad1.left_stick_y + gamepad1.left_stick_x - gamepad1.right_stick_x;
-        motorFL.setPower(FL);
-        motorFR.setPower(FR);
-        motorRL.setPower(RL);
-        motorRR.setPower(RR);
+        motorFL.setPower(-gamepad1.left_stick_y + gamepad1.left_stick_x + gamepad1.right_stick_x);
+        motorFR.setPower(-gamepad1.left_stick_y - gamepad1.left_stick_x - gamepad1.right_stick_x);
+        motorRL.setPower(-gamepad1.left_stick_y - gamepad1.left_stick_x + gamepad1.right_stick_x);
+        motorRR.setPower(-gamepad1.left_stick_y + gamepad1.left_stick_x - gamepad1.right_stick_x);
 
         // INTAKE
-            // IN
-            if (gamepad1.crossWasPressed() && check_cross) {
-                check_intake_in = !check_intake_in;
-                check_cross = false;
-            } else if (!gamepad1.crossWasPressed()) {
-                check_cross = true;}
-            if (check_intake_in) {
-                FSM_intake.command(FSM_Intake.Current_State.In);}
-            // OUT
-            if (gamepad1.circleWasPressed() && check_circle) {
-                check_intake_out = !check_intake_out;
-                check_circle = false;
-            } else if (!gamepad1.circleWasPressed()) {
-                check_circle = true;}
-            if (check_intake_out) {
-                FSM_intake.command(FSM_Intake.Current_State.Out);}
-            // STOP
-            if (!check_intake_in && !check_intake_out){
-                FSM_intake.command(FSM_Intake.Current_State.Stop);}
+        // IN
+        if (gamepad1.crossWasPressed() && check_cross) {
+            check_intake_in = !check_intake_in;
+            check_cross = false;
+        } else if (!gamepad1.crossWasPressed()) {
+            check_cross = true;}
+        if (check_intake_in) {
+            FSM_intake.command(FSM_Intake.Current_State.In);}
+        // OUT
+        if (gamepad1.circleWasPressed() && check_circle) {
+            check_intake_out = !check_intake_out;
+            check_circle = false;
+        } else if (!gamepad1.circleWasPressed()) {
+            check_circle = true;}
+        if (check_intake_out) {
+            FSM_intake.command(FSM_Intake.Current_State.Out);}
+        // STOP
+        if (!check_intake_in && !check_intake_out){
+            FSM_intake.command(FSM_Intake.Current_State.Stop);}
 
         // CLOSER
-            // POLLEN
+        // POLLEN
         if (gamepad1.right_trigger > 0 && check_triggerR) {
             check_closer_pollen = !check_closer_pollen;
             check_triggerR = false;
@@ -150,13 +145,13 @@ public class Tune_Config extends OpMode {
         if (check_closer_pollen){
             FSM_closer_pollen.command(FSM_Closer_pollen.Current_State.Open);
             FSM_closer_nectar.command(FSM_Closer_nectar.Current_State.Open);
-            FSM_intake.command(FSM_Intake.Current_State.shoot);
+//            FSM_intake.command(FSM_Intake.Current_State.shoot);
         }else {
             FSM_closer_pollen.command(FSM_Closer_pollen.Current_State.Close);
             FSM_closer_nectar.command(FSM_Closer_nectar.Current_State.Close);}
 
         // PID_SHOOTER
-            // POLLEN
+        // POLLEN
         if (gamepad1.rightBumperWasPressed() && check_bumperR){
             check_shoot_pollen = !check_shoot_pollen;
             check_bumperR = false;
@@ -167,12 +162,12 @@ public class Tune_Config extends OpMode {
         else {
             FSM_shooter_pollen.command(FSM_Shooter_pollen.Current_State.Stop);
         }
-            // NECTAR
-        if (gamepad2.rightBumperWasPressed() && check_bumperR2){
+        // NECTAR
+        if (gamepad2.triangleWasPressed() && check_triangle2){
             check_shoot_nectar = !check_shoot_nectar;
-            check_bumperR2 = false;
-        } else if (!gamepad2.rightBumperWasPressed()) {
-            check_bumperR2 = true;}
+            check_triangle2 = false;
+        } else if (!gamepad2.triangleWasPressed()) {
+            check_triangle2 = true;}
         if (check_shoot_nectar){
             FSM_shooter_nectar.command(FSM_Shooter_nectar.Current_State.Mid);}
         else {
@@ -180,25 +175,50 @@ public class Tune_Config extends OpMode {
         }
 
         // Turret
-        if (gamepad1.dpad_left && check_dpadL){
+            if (gamepad2.dpad_left && check_dpadL2) {
                 if (state_turret_manual > 0) {
-                state_turret_manual -= 1;}
-                else {state_turret_manual = 0;}
-            check_dpadL = false;
-        } else if (!gamepad1.dpad_left){
-            check_dpadL = true;}
-        if (gamepad1.dpad_right && check_dpadR){
-                if (state_turret_manual < 4){
-                state_turret_manual += 1;}
-                else {state_turret_manual = 4;}
-            check_dpadR = false;
-        } else if (!gamepad1.dpad_right){
-            check_dpadR = true;}
-        if (state_turret_manual == 0){FSM_turret.command(FSM_Turret.Current_State.L2);}
-        if (state_turret_manual == 1){FSM_turret.command(FSM_Turret.Current_State.L1);}
-        if (state_turret_manual == 2){FSM_turret.command(FSM_Turret.Current_State.M0);}
-        if (state_turret_manual == 3){FSM_turret.command(FSM_Turret.Current_State.R1);}
-        if (state_turret_manual == 4){FSM_turret.command(FSM_Turret.Current_State.R2);}
+                    state_turret_manual -= 1;
+                } else {
+                    state_turret_manual = 0;}
+                check_dpadL2 = false;
+            } else if (!gamepad2.dpad_left) {
+                check_dpadL2 = true;}
+            if (gamepad2.dpad_right && check_dpadR2) {
+                if (state_turret_manual < 4) {
+                    state_turret_manual += 1;
+                } else {
+                    state_turret_manual = 4;}
+                check_dpadR2 = false;
+            } else if (!gamepad2.dpad_right) {
+                check_dpadR2 = true;}
+            if (state_turret_manual == 0) {FSM_turret.command(FSM_Turret.Current_State.L2);}
+            if (state_turret_manual == 1) {FSM_turret.command(FSM_Turret.Current_State.L1);}
+            if (state_turret_manual == 2) {FSM_turret.command(FSM_Turret.Current_State.M0);}
+            if (state_turret_manual == 3) {FSM_turret.command(FSM_Turret.Current_State.R1);}
+            if (state_turret_manual == 4) {FSM_turret.command(FSM_Turret.Current_State.R2);}
+
+
+        // SPEED_SHOOT
+        if (gamepad2.right_bumper && check_bumperR2){
+            Config_Tuning.FSM_Shooter.mid_pollen += 10;
+            check_bumperR2 = false;}
+        else if(!gamepad2.right_bumper) {
+            check_bumperR2=true;}
+        if (gamepad2.left_bumper&&check_bumperL2){
+            Config_Tuning.FSM_Shooter.mid_pollen -= 10;
+            check_bumperL2 = false;}
+        else if(!gamepad2.left_bumper)  {
+            check_bumperL2=true;}
+        if (gamepad2.right_trigger >= 10 && check_triggerR2) {
+            Config_Tuning.FSM_Shooter.mid_nectar += 10;
+            check_triggerR2 = false;}
+        else if(gamepad2.right_trigger == 0 ) {
+            check_triggerR2=true;}
+        if (gamepad2.left_trigger >= 10 && check_triggerL2) {
+            Config_Tuning.FSM_Shooter.mid_nectar -= 10;
+            check_triggerL2 = false;}
+        else if(gamepad2.left_trigger == 0) {
+            check_triggerL2=true;}
 
 
         debugging();
@@ -207,8 +227,9 @@ public class Tune_Config extends OpMode {
         FSM_intake.update_state();
         FSM_closer_pollen.update_state();
         FSM_closer_nectar.update_state();
-        FSM_turret.update_state();
+        FSM_turret.update_state(follower);
         telemetryX.update();
+
     }
     ///////////////////////////////////////////////////////////////////////////////////////////
     public void debugging (){
@@ -225,9 +246,6 @@ public class Tune_Config extends OpMode {
                 telemetryX.addData("Current_State_Closer_pollen",FSM_closer_pollen.get_state(),TelemetryX.Target.BOTH);
                 telemetryX.addData("Current_State_Closer_nectar",FSM_closer_nectar.get_state(),TelemetryX.Target.BOTH);
                 telemetryX.addData("test",Config_Tuning.FSM_Closer.close_pollen,TelemetryX.Target.BOTH);
-
-
-
 
         }
     }
