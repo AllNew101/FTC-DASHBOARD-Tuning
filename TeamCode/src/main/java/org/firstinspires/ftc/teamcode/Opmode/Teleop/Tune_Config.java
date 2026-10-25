@@ -15,6 +15,7 @@ import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
+import org.firstinspires.ftc.teamcode.Opmode.Calculate.Distance;
 import org.firstinspires.ftc.teamcode.Opmode.Config_Tuning;
 import org.firstinspires.ftc.teamcode.Opmode.System.FSM_Closer_nectar;
 import org.firstinspires.ftc.teamcode.Opmode.System.FSM_Closer_pollen;
@@ -29,12 +30,9 @@ import org.firstinspires.ftc.teamcode.Opmode.System.TelemetryX;
 @TeleOp
 public class Tune_Config extends OpMode {
     Drawing drawing;
+    Distance distance;
     TelemetryX telemetryX;
     TelemetryPacket packet;
-    DcMotorEx motorRR;
-    DcMotorEx motorRL;
-    DcMotorEx motorFR;
-    DcMotorEx motorFL;
     FSM_Shooter_pollen FSM_shooter_pollen;
     FSM_Shooter_nectar FSM_shooter_nectar;
     FSM_Turret FSM_turret;
@@ -42,6 +40,12 @@ public class Tune_Config extends OpMode {
     FSM_Closer_pollen FSM_closer_pollen;
     FSM_Closer_nectar FSM_closer_nectar;
     ElapsedTime time;
+    DcMotorEx motorRR;
+    DcMotorEx motorRL;
+    DcMotorEx motorFR;
+    DcMotorEx motorFL;
+    Servo flower1;
+    Servo flower2;
 
     public static int debug_key = 0;
 
@@ -49,6 +53,7 @@ public class Tune_Config extends OpMode {
     boolean check_intake_in = false;
     boolean check_circle = true;
     boolean check_intake_out = false;
+    boolean check_intake_shoot = false;
     boolean check_triggerR = true;
     boolean check_closer_pollen = false;
     boolean check_bumperR = true;
@@ -64,6 +69,8 @@ public class Tune_Config extends OpMode {
     boolean check_bumperL2 = true;
     boolean check_triggerR2 = true;
     boolean check_triggerL2 = true;
+    boolean check_DpadDOWN = true;
+    boolean check_flower = false;
 
 
     ////////////////////////////////////////////////////////////////////////////////////////////////
@@ -84,9 +91,11 @@ public class Tune_Config extends OpMode {
         motorRL = hardwareMap.get(DcMotorEx.class, "Back_L");
         motorFR = hardwareMap.get(DcMotorEx.class, "Front_R");
         motorFL = hardwareMap.get(DcMotorEx.class, "Front_L");
-
         motorRL.setDirection(DcMotorSimple.Direction.REVERSE);
         motorFL.setDirection(DcMotorSimple.Direction.REVERSE);
+        flower1 = hardwareMap.get(Servo.class, "Flower1");
+        flower2 = hardwareMap.get(Servo.class,"Flower2");
+        flower2.setDirection(Servo.Direction.REVERSE);
 
         time.reset();
         time.startTime();
@@ -105,7 +114,6 @@ public class Tune_Config extends OpMode {
     public void start() {
         FSM_shooter_pollen.command(FSM_Shooter_pollen.Current_State.Stop);
         FSM_shooter_nectar.command(FSM_Shooter_nectar.Current_State.Stop);
-        FSM_intake.command(FSM_Intake.Current_State.Stop);
     }
     @Override
     public void loop() {
@@ -114,29 +122,8 @@ public class Tune_Config extends OpMode {
         motorRL.setPower(-gamepad1.left_stick_y - gamepad1.left_stick_x + gamepad1.right_stick_x);
         motorRR.setPower(-gamepad1.left_stick_y + gamepad1.left_stick_x - gamepad1.right_stick_x);
 
-        // INTAKE
-        // IN
-        if (gamepad1.crossWasPressed() && check_cross) {
-            check_intake_in = !check_intake_in;
-            check_cross = false;
-        } else if (!gamepad1.crossWasPressed()) {
-            check_cross = true;}
-        if (check_intake_in) {
-            FSM_intake.command(FSM_Intake.Current_State.In);}
-        // OUT
-        if (gamepad1.circleWasPressed() && check_circle) {
-            check_intake_out = !check_intake_out;
-            check_circle = false;
-        } else if (!gamepad1.circleWasPressed()) {
-            check_circle = true;}
-        if (check_intake_out) {
-            FSM_intake.command(FSM_Intake.Current_State.Out);}
-        // STOP
-        if (!check_intake_in && !check_intake_out){
-            FSM_intake.command(FSM_Intake.Current_State.Stop);}
-
         // CLOSER
-        // POLLEN
+        // POLLEN/NECTAR
         if (gamepad1.right_trigger > 0 && check_triggerR) {
             check_closer_pollen = !check_closer_pollen;
             check_triggerR = false;
@@ -145,10 +132,31 @@ public class Tune_Config extends OpMode {
         if (check_closer_pollen){
             FSM_closer_pollen.command(FSM_Closer_pollen.Current_State.Open);
             FSM_closer_nectar.command(FSM_Closer_nectar.Current_State.Open);
-//            FSM_intake.command(FSM_Intake.Current_State.shoot);
+            FSM_intake.command(FSM_Intake.Current_State.shoot); // Intake
+            check_intake_shoot = true;
         }else {
             FSM_closer_pollen.command(FSM_Closer_pollen.Current_State.Close);
-            FSM_closer_nectar.command(FSM_Closer_nectar.Current_State.Close);}
+            FSM_closer_nectar.command(FSM_Closer_nectar.Current_State.Close);
+            check_intake_shoot = false;}
+
+        // INTAKE
+        // IN
+        if (gamepad1.crossWasPressed() && check_cross) {
+            check_intake_in = !check_intake_in;
+            check_cross = false;
+        } else if (!gamepad1.crossWasPressed()) {
+            check_cross = true;}
+        // OUT
+        if (gamepad1.circleWasPressed() && check_circle) {
+            check_intake_out = !check_intake_out;
+            check_circle = false;
+        } else if (!gamepad1.circleWasPressed()) {
+            check_circle = true;}
+        // FUNCTION
+        if (check_intake_shoot){FSM_intake.command(FSM_Intake.Current_State.shoot);}
+        else if (check_intake_out){FSM_intake.command(FSM_Intake.Current_State.Out);}
+        else if (check_intake_in){FSM_intake.command(FSM_Intake.Current_State.In);}
+        else {FSM_intake.command(FSM_Intake.Current_State.Stop);}
 
         // PID_SHOOTER
         // POLLEN
@@ -171,32 +179,7 @@ public class Tune_Config extends OpMode {
         if (check_shoot_nectar){
             FSM_shooter_nectar.command(FSM_Shooter_nectar.Current_State.Mid);}
         else {
-            FSM_shooter_nectar.command(FSM_Shooter_nectar.Current_State.Stop);
-        }
-
-        // Turret
-            if (gamepad2.dpad_left && check_dpadL2) {
-                if (state_turret_manual > 0) {
-                    state_turret_manual -= 1;
-                } else {
-                    state_turret_manual = 0;}
-                check_dpadL2 = false;
-            } else if (!gamepad2.dpad_left) {
-                check_dpadL2 = true;}
-            if (gamepad2.dpad_right && check_dpadR2) {
-                if (state_turret_manual < 4) {
-                    state_turret_manual += 1;
-                } else {
-                    state_turret_manual = 4;}
-                check_dpadR2 = false;
-            } else if (!gamepad2.dpad_right) {
-                check_dpadR2 = true;}
-            if (state_turret_manual == 0) {FSM_turret.command(FSM_Turret.Current_State.L2);}
-            if (state_turret_manual == 1) {FSM_turret.command(FSM_Turret.Current_State.L1);}
-            if (state_turret_manual == 2) {FSM_turret.command(FSM_Turret.Current_State.M0);}
-            if (state_turret_manual == 3) {FSM_turret.command(FSM_Turret.Current_State.R1);}
-            if (state_turret_manual == 4) {FSM_turret.command(FSM_Turret.Current_State.R2);}
-
+            FSM_shooter_nectar.command(FSM_Shooter_nectar.Current_State.Stop);}
 
         // SPEED_SHOOT
         if (gamepad2.right_bumper && check_bumperR2){
@@ -205,20 +188,33 @@ public class Tune_Config extends OpMode {
         else if(!gamepad2.right_bumper) {
             check_bumperR2=true;}
         if (gamepad2.left_bumper&&check_bumperL2){
-            Config_Tuning.FSM_Shooter.mid_pollen -= 10;
+            Config_Tuning.FSM_Shooter.mid_nectar += 10;
             check_bumperL2 = false;}
         else if(!gamepad2.left_bumper)  {
             check_bumperL2=true;}
-        if (gamepad2.right_trigger >= 10 && check_triggerR2) {
-            Config_Tuning.FSM_Shooter.mid_nectar += 10;
+        if (gamepad2.right_trigger > 0 && check_triggerR2) {
+            Config_Tuning.FSM_Shooter.mid_pollen -= 10;
             check_triggerR2 = false;}
-        else if(gamepad2.right_trigger == 0 ) {
+        else if(gamepad2.right_trigger <= 0 ) {
             check_triggerR2=true;}
-        if (gamepad2.left_trigger >= 10 && check_triggerL2) {
+        if (gamepad2.left_trigger > 0 && check_triggerL2) {
             Config_Tuning.FSM_Shooter.mid_nectar -= 10;
             check_triggerL2 = false;}
-        else if(gamepad2.left_trigger == 0) {
+        else if(gamepad2.left_trigger <= 0) {
             check_triggerL2=true;}
+
+        //Flower
+        if (gamepad2.dpadDownWasPressed() && check_DpadDOWN) {
+            check_DpadDOWN = false;
+            check_flower = !check_flower;}
+        else if (!gamepad2.dpadDownWasPressed()) {
+            check_DpadDOWN = true;}
+        if (check_flower){
+            flower1.setPosition(1);
+            flower2.setPosition(1);
+        } else {
+            flower1.setPosition(0.25);
+            flower2.setPosition(0.25);}
 
 
         debugging();
@@ -227,7 +223,6 @@ public class Tune_Config extends OpMode {
         FSM_intake.update_state();
         FSM_closer_pollen.update_state();
         FSM_closer_nectar.update_state();
-        FSM_turret.update_state(follower);
         telemetryX.update();
 
     }
