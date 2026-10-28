@@ -44,7 +44,6 @@ public class Tune_Config extends OpMode {
     DcMotorEx motorRL;
     DcMotorEx motorFR;
     DcMotorEx motorFL;
-    Servo flower1;
     Servo flower2;
 
     public static int debug_key = 0;
@@ -93,7 +92,6 @@ public class Tune_Config extends OpMode {
         motorFL = hardwareMap.get(DcMotorEx.class, "Front_L");
         motorRL.setDirection(DcMotorSimple.Direction.REVERSE);
         motorFL.setDirection(DcMotorSimple.Direction.REVERSE);
-        flower1 = hardwareMap.get(Servo.class, "Flower1");
         flower2 = hardwareMap.get(Servo.class,"Flower2");
         flower2.setDirection(Servo.Direction.REVERSE);
 
@@ -210,10 +208,8 @@ public class Tune_Config extends OpMode {
         else if (!gamepad2.dpadDownWasPressed()) {
             check_DpadDOWN = true;}
         if (check_flower){
-            flower1.setPosition(1);
             flower2.setPosition(1);
         } else {
-            flower1.setPosition(0.25);
             flower2.setPosition(0.25);}
 
 
