@@ -70,6 +70,7 @@ public class Tune_Config extends OpMode {
     boolean check_triggerL2 = true;
     boolean check_DpadDOWN = true;
     boolean check_flower = false;
+    boolean check_intake_boost = false;
 
 
     ////////////////////////////////////////////////////////////////////////////////////////////////
@@ -150,11 +151,18 @@ public class Tune_Config extends OpMode {
             check_circle = false;
         } else if (!gamepad1.circleWasPressed()) {
             check_circle = true;}
+        // BOOST
+        if (gamepad2.cross){
+            check_intake_boost = true;
+        }else{
+            check_intake_boost = false;}
         // FUNCTION
-        if (check_intake_shoot){FSM_intake.command(FSM_Intake.Current_State.shoot);}
+        if (check_intake_boost){FSM_intake.command(FSM_Intake.Current_State.Boost);}
         else if (check_intake_out){FSM_intake.command(FSM_Intake.Current_State.Out);}
+        else if (check_intake_shoot){FSM_intake.command(FSM_Intake.Current_State.shoot);}
         else if (check_intake_in){FSM_intake.command(FSM_Intake.Current_State.In);}
         else {FSM_intake.command(FSM_Intake.Current_State.Stop);}
+
 
         // PID_SHOOTER
         // POLLEN
